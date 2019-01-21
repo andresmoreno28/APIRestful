@@ -2,6 +2,9 @@
 
 namespace App;
 
+use App\Seller;
+use App\Category;
+use App\Transaction;
 use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
@@ -22,5 +25,22 @@ class Product extends Model
     public function isAvailable()
     {
     	return $this->status == Product::PRODUCTO_DISPONIBLE;
+    }
+
+    //Relación 1:1 (uno a uno) entre Producto y Vendedor
+    public function seller()
+    {
+        return $this->belongsTo(Seller::class);
+    }
+
+    //Relación 1:M (uno a muchos) entre Producto y Transacciones
+    public function transactions()
+    {
+        return $this->hasMany(Transaction::class);
+    }
+    //Relación M:N  (Muchos a muchos) entre Productos y Categorías
+    public function categories()
+    {
+        return $this->belongsToMany(Category::class);
     }
 }
