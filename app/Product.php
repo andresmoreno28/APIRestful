@@ -24,7 +24,7 @@ class Product extends Model
 
     public function isAvailable()
     {
-    	return $this->status == Product::PRODUCTO_DISPONIBLE;
+    	return $this->status == Product::PRODUCT_AVAILABLE;
     }
 
     //Relación 1:1 (uno a uno) entre Producto y Vendedor
