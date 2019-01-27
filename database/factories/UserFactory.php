@@ -1,8 +1,10 @@
 <?php
 
 use App\User;
+use App\Seller;
 use App\Product;
 use App\Category;
+use App\Transaction;
 use Faker\Generator as Faker;
 
 /*
@@ -50,13 +52,13 @@ $factory->define(Product::class, function (Faker $faker) {
 });
 
 $factory->define(Transaction::class, function (Faker $faker) {
+
+	$seller = Seller::has('products')->get()->random();
+	$buyer = User::all()->except($seller->id)->random();
+
     return [
-        'name' => $faker->word,
-        'description' => $faker->paragraph(1),
-        'quantity' => $faker->numberBetween(1, 10),
-        'status' => $faker->randomElement([Product::PRODUCT_AVAILABLE, Product::PRODUCT_NOT_AVAILABLE]),
-        'image' => $faker->randomElement(['1.jpg', '2.jpg', '3.jpg']),
-        //'seller_id' => User::inRandomOrder()->first()->id,   ESTA Y LA SIG. SON VÁLIDAS
-        'seller_id' => User::all()->random()->id,
+        'quantity' => $faker->numberBetween(1, 3),
+        'buyer_id' => $buyer->id,
+        'product_id' => $seller->products->random()->id,
     ];
 });
